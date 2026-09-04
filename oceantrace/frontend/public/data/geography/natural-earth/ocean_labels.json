@@ -1,0 +1,82 @@
+[
+  {
+    "name": "INDIAN OCEAN",
+    "longitude": 75,
+    "latitude": -15,
+    "importance": 100,
+    "minZoom": 0,
+    "maxZoom": 5
+  },
+  {
+    "name": "PACIFIC OCEAN",
+    "longitude": -150,
+    "latitude": 0,
+    "importance": 100,
+    "minZoom": 0,
+    "maxZoom": 5
+  },
+  {
+    "name": "ATLANTIC OCEAN",
+    "longitude": -30,
+    "latitude": 10,
+    "importance": 100,
+    "minZoom": 0,
+    "maxZoom": 5
+  },
+  {
+    "name": "ARCTIC OCEAN",
+    "longitude": 0,
+    "latitude": 80,
+    "importance": 100,
+    "minZoom": 0,
+    "maxZoom": 5
+  },
+  {
+    "name": "SOUTHERN OCEAN",
+    "longitude": 90,
+    "latitude": -60,
+    "importance": 100,
+    "minZoom": 0,
+    "maxZoom": 5
+  },
+  {
+    "name": "ARABIAN SEA",
+    "longitude": 65,
+    "latitude": 15,
+    "importance": 80,
+    "minZoom": 3,
+    "maxZoom": 10
+  },
+  {
+    "name": "BAY OF BENGAL",
+    "longitude": 90,
+    "latitude": 15,
+    "importance": 80,
+    "minZoom": 3,
+    "maxZoom": 10
+  },
+  {
+    "name": "RED SEA",
+    "longitude": 38,
+    "latitude": 20,
+    "importance": 70,
+    "minZoom": 3,
+    "maxZoom": 10
+  },
+  {
+    "name": "SOUTH CHINA SEA",
+    "longitude": 112,
+    "latitude": 12,
+    "importance": 80,
+    "minZoom": 3,
+    "maxZoom": 10
+  },
+  {
+    "name": "MEDITERRANEAN SEA",
+    "longitude": 18,
+    "latitude": 35,
+    "importance": 80,
+    "minZoom": 3,
+    "maxZoom": 10
+  }
+]

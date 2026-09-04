@@ -1,0 +1,90 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [78.9629, 20.5937] },
+      "properties": { "name": "INDIA", "importance": 100000000, "minZoom": 2, "maxZoom": 14 }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [69.3451, 30.3753] },
+      "properties": { "name": "PAKISTAN", "importance": 50000000, "minZoom": 3, "maxZoom": 14 }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [56.0917, 21.4735] },
+      "properties": { "name": "OMAN", "importance": 40000000, "minZoom": 3.5, "maxZoom": 14 }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [54.3773, 24.4539] },
+      "properties": { "name": "UNITED ARAB EMIRATES", "importance": 35000000, "minZoom": 4, "maxZoom": 14 }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [53.6880, 32.4279] },
+      "properties": { "name": "IRAN", "importance": 60000000, "minZoom": 3, "maxZoom": 14 }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [45.0792, 23.8859] },
+      "properties": { "name": "SAUDI ARABIA", "importance": 70000000, "minZoom": 2.5, "maxZoom": 14 }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [48.5164, 15.5527] },
+      "properties": { "name": "YEMEN", "importance": 30000000, "minZoom": 3.5, "maxZoom": 14 }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [80.7718, 7.8731] },
+      "properties": { "name": "SRI LANKA", "importance": 35000000, "minZoom": 4, "maxZoom": 14 }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [73.2207, 3.2028] },
+      "properties": { "name": "MALDIVES", "importance": 20000000, "minZoom": 5, "maxZoom": 14 }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [46.1996, 5.1521] },
+      "properties": { "name": "SOMALIA", "importance": 30000000, "minZoom": 3.5, "maxZoom": 14 }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [90.3563, 23.6850] },
+      "properties": { "name": "BANGLADESH", "importance": 40000000, "minZoom": 4, "maxZoom": 14 }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [95.9560, 21.9162] },
+      "properties": { "name": "MYANMAR", "importance": 35000000, "minZoom": 3.5, "maxZoom": 14 }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [100.9925, 15.8700] },
+      "properties": { "name": "THAILAND", "importance": 35000000, "minZoom": 3.5, "maxZoom": 14 }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [42.5903, 11.8251] },
+      "properties": { "name": "DJIBOUTI", "importance": 20000000, "minZoom": 5, "maxZoom": 14 }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [39.7823, 15.1794] },
+      "properties": { "name": "ERITREA", "importance": 20000000, "minZoom": 4.5, "maxZoom": 14 }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [51.1839, 25.3548] },
+      "properties": { "name": "QATAR", "importance": 20000000, "minZoom": 5.5, "maxZoom": 14 }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [47.4818, 29.3117] },
+      "properties": { "name": "KUWAIT", "importance": 20000000, "minZoom": 5, "maxZoom": 14 }
+    }
+  ]
+}

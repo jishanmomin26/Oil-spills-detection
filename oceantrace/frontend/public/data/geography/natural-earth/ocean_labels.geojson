@@ -1,0 +1,252 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [65.0, 16.0] },
+      "properties": {
+        "name": "ARABIAN SEA",
+        "category": "sea",
+        "importance": 95,
+        "minZoom": 2,
+        "maxZoom": 14,
+        "fontSize": 18,
+        "letterSpacing": 0.35
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [76.5, 4.0] },
+      "properties": {
+        "name": "INDIAN OCEAN",
+        "category": "ocean",
+        "importance": 100,
+        "minZoom": 1,
+        "maxZoom": 12,
+        "fontSize": 22,
+        "letterSpacing": 0.4
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [88.5, 14.5] },
+      "properties": {
+        "name": "BAY OF BENGAL",
+        "category": "sea",
+        "importance": 95,
+        "minZoom": 2,
+        "maxZoom": 14,
+        "fontSize": 18,
+        "letterSpacing": 0.35
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [74.5, 8.5] },
+      "properties": {
+        "name": "LACCADIVE SEA",
+        "category": "sea",
+        "importance": 85,
+        "minZoom": 4,
+        "maxZoom": 14,
+        "fontSize": 14,
+        "letterSpacing": 0.25
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [51.5, 26.5] },
+      "properties": {
+        "name": "ARABIAN GULF / PERSIAN GULF",
+        "category": "gulf",
+        "importance": 85,
+        "minZoom": 3.5,
+        "maxZoom": 14,
+        "fontSize": 14,
+        "letterSpacing": 0.25
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [58.8, 24.3] },
+      "properties": {
+        "name": "GULF OF OMAN",
+        "category": "gulf",
+        "importance": 80,
+        "minZoom": 4.5,
+        "maxZoom": 14,
+        "fontSize": 13,
+        "letterSpacing": 0.2
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [48.0, 12.5] },
+      "properties": {
+        "name": "GULF OF ADEN",
+        "category": "gulf",
+        "importance": 80,
+        "minZoom": 4.5,
+        "maxZoom": 14,
+        "fontSize": 13,
+        "letterSpacing": 0.2
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [38.5, 20.0] },
+      "properties": {
+        "name": "RED SEA",
+        "category": "sea",
+        "importance": 85,
+        "minZoom": 3,
+        "maxZoom": 14,
+        "fontSize": 16,
+        "letterSpacing": 0.3
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [95.0, 11.5] },
+      "properties": {
+        "name": "ANDAMAN SEA",
+        "category": "sea",
+        "importance": 85,
+        "minZoom": 3.5,
+        "maxZoom": 14,
+        "fontSize": 14,
+        "letterSpacing": 0.25
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [56.4, 26.6] },
+      "properties": {
+        "name": "STRAIT OF HORMUZ",
+        "category": "strait",
+        "importance": 75,
+        "minZoom": 5.5,
+        "maxZoom": 14,
+        "fontSize": 11,
+        "letterSpacing": 0.15
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [43.4, 12.6] },
+      "properties": {
+        "name": "BAB-EL-MANDEB",
+        "category": "strait",
+        "importance": 75,
+        "minZoom": 5.5,
+        "maxZoom": 14,
+        "fontSize": 11,
+        "letterSpacing": 0.15
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [69.4, 22.6] },
+      "properties": {
+        "name": "GULF OF KUTCH",
+        "category": "gulf",
+        "importance": 70,
+        "minZoom": 6.0,
+        "maxZoom": 14,
+        "fontSize": 11,
+        "letterSpacing": 0.15
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [72.3, 21.3] },
+      "properties": {
+        "name": "GULF OF KHAMBHAT",
+        "category": "gulf",
+        "importance": 70,
+        "minZoom": 6.0,
+        "maxZoom": 14,
+        "fontSize": 11,
+        "letterSpacing": 0.15
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [79.5, 9.8] },
+      "properties": {
+        "name": "PALK STRAIT",
+        "category": "strait",
+        "importance": 70,
+        "minZoom": 6.0,
+        "maxZoom": 14,
+        "fontSize": 11,
+        "letterSpacing": 0.15
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [18.0, 35.0] },
+      "properties": {
+        "name": "MEDITERRANEAN SEA",
+        "category": "sea",
+        "importance": 90,
+        "minZoom": 2,
+        "maxZoom": 10,
+        "fontSize": 18,
+        "letterSpacing": 0.35
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [113.0, 14.0] },
+      "properties": {
+        "name": "SOUTH CHINA SEA",
+        "category": "sea",
+        "importance": 90,
+        "minZoom": 2,
+        "maxZoom": 10,
+        "fontSize": 18,
+        "letterSpacing": 0.35
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [75.0, -15.0] },
+      "properties": {
+        "name": "INDIAN OCEAN (SOUTHERN BASIN)",
+        "category": "ocean",
+        "importance": 95,
+        "minZoom": 0,
+        "maxZoom": 6,
+        "fontSize": 20,
+        "letterSpacing": 0.4
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-30.0, 10.0] },
+      "properties": {
+        "name": "ATLANTIC OCEAN",
+        "category": "ocean",
+        "importance": 100,
+        "minZoom": 0,
+        "maxZoom": 5,
+        "fontSize": 24,
+        "letterSpacing": 0.4
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-150.0, 0.0] },
+      "properties": {
+        "name": "PACIFIC OCEAN",
+        "category": "ocean",
+        "importance": 100,
+        "minZoom": 0,
+        "maxZoom": 5,
+        "fontSize": 24,
+        "letterSpacing": 0.4
+      }
+    }
+  ]
+}

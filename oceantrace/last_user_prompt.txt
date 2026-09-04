@@ -1,0 +1,401 @@
+<USER_REQUEST>
+# OCEANTRACE AI — TARGETED MAP BUG FIX
+
+## DO NOT REDESIGN OR OVERDO
+
+There are **three specific map bugs** that must be fixed.
+
+**IMPORTANT: Do NOT redesign the UI. Do NOT add unnecessary features. Do NOT change the existing visual style.**
+
+Treat the current working UI as the approved baseline.
+
+Only investigate and fix the three problems described below.
+
+---
+
+# BUG 1 — OIL SPILL HOVER DETAIL BOX POSITION
+
+When the cursor is moved over the oil-spill area, a detail/information box appears **far away from the cursor**.
+
+This makes it difficult for the investigator/judge to understand which oil-spill feature the information belongs to.
+
+## Required behaviour
+
+When hovering over the oil-spill geometry:
+
+* The information box should appear **close to the cursor / hovered spill location**.
+* It must clearly correspond to the feature being hovered.
+* It must not appear at an unrelated fixed location.
+* It must remain inside the visible map/viewport.
+* It must avoid being clipped by the sidebar or screen edge.
+* It should reposition intelligently if the cursor is near an edge.
+
+Do NOT redesign the popup.
+
+Do NOT create a new complicated tooltip system if one already exists.
+
+Inspect the existing hover implementation and fix the actual positioning calculation.
+
+Check whether the problem is caused by:
+
+* incorrect screen coordinates
+* map coordinates vs pixel coordinates
+* stale map reference
+* incorrect projection conversion
+* incorrect event coordinates
+* fixed positioning
+* container offset
+* sidebar offset
+* 2D/3D coordinate mismatch
+
+Fix the root cause.
+
+---
+
+# BUG 2 — 3D GLOBE MUST SHOW ACTUAL INVESTIGATION DATA
+
+The current 3D Globe shows **round ball-like objects** instead of representing the investigation data properly.
+
+This is NOT the desired result.
+
+The 3D Globe should visually represent the same investigation that is demonstrated in the 2D map.
+
+## Required
+
+In the same ocean/region shown by the 2D investigation map, the 3D globe should show:
+
+* actual ships/vessels
+* oil-spill area
+* probable origin
+* relevant vessel markers
+* AIS tracks where already supported
+* important investigation layers already present in 2D
+
+The 3D view should use the **same underlying investigation data** as the 2D view.
+
+Do NOT create fake 3D ships.
+
+Do NOT create a second/demo-only vessel dataset.
+
+Do NOT replace ships with generic balls.
+
+Use the existing vessel coordinates and existing spill geometry.
+
+---
+
+# 3D VESSELS
+
+Represent vessels as recognizable **ship/vessel markers or simple ship-shaped 3D symbols**, not generic round spheres.
+
+They do not need to be photorealistic 3D ship models.
+
+A clean, lightweight vessel representation is enough.
+
+Priority:
+
+**Correct vessel location + clear vessel identity > fancy 3D model**
+
+The vessel positions must correspond to the same coordinates used by the 2D map.
+
+---
+
+# 3D OIL SPILL
+
+The oil-spill area must be represented as an actual **area/geometry**, not a single point or sphere.
+
+Use the existing spill geometry/coordinates from the deterministic backend/data.
+
+The 3D globe should show the spill in approximately the **same geographic location and shape/extent** as the 2D map.
+
+It should remain visually distinguishable from:
+
+* ocean
+* land
+* vessels
+* probable origin
+
+Do NOT invent a new spill location.
+
+Do NOT calculate a different spill area in the frontend.
+
+Reuse the existing deterministic spill result.
+
+---
+
+# 3D / 2D DATA CONSISTENCY
+
+The 2D and 3D views must represent the **same investigation state**.
+
+Both should use the same:
+
+* incident
+* spill
+* spill geometry
+* spill area
+* origin
+* vessels
+* vessel IDs
+* AIS data
+* filters
+* selected vessel
+* investigation time
+* timeline state
+
+There should NOT be separate datasets for 2D and 3D.
+
+Conceptually:
+
+**Shared Investigation State**
+→ **2D Map**
+
+and
+
+**Shared Investigation State**
+→ **3D Globe**
+
+---
+
+# BUG 3 — 3D → 2D SWITCH MAKES MAP EMPTY
+
+There is currently a serious state/lifecycle bug:
+
+When switching from:
+
+**3D Globe → 2D Investigation**
+
+the 2D map does not show the expected investigation data.
+
+It may become empty or lose layers.
+
+Fix this properly.
+
+## Required after switching 3D → 2D
+
+The 2D map must immediately restore/show:
+
+* oil spill
+* probable origin
+* vessels
+* relevant AIS tracks
+* existing investigation layers
+* selected vessel if one was selected
+* current filters
+* current investigation state
+
+No page refresh should be required.
+
+---
+
+# IMPORTANT — TRACE THE ROOT CAUSE
+
+Do NOT simply force the map to reload.
+
+Do NOT use:
+
+* `window.location.reload()`
+* `setTimeout()` hacks
+* artificial delays
+* duplicated data
+* forced page refresh
+* random re-fetching
+* fake vessel generation
+* resetting the whole Zustand store
+* unnecessary component remounting
+
+Instead, inspect the actual map lifecycle.
+
+Trace:
+
+**Zustand / Investigation State**
+→ **CommandCenter**
+→ **InvestigationMap**
+→ **Map Mode**
+→ **MapLibre / deck.gl**
+→ **2D Layer Creation**
+→ **3D Layer Creation**
+→ **Mode Switch**
+→ **Layer Cleanup / Reinitialization**
+
+Find why the 2D layers/data disappear after leaving the globe.
+
+---
+
+# CHECK FOR LIFECYCLE PROBLEMS
+
+Inspect specifically for:
+
+* MapLibre instance being destroyed incorrectly
+* deck.gl overlay being removed and not recreated
+* incorrect React `useEffect` dependencies
+* map mode changing and clearing shared state
+* layer arrays becoming empty
+* stale references
+* cleanup functions removing persistent layers
+* asynchronous race conditions
+* state reset during mode switch
+* 2D layer initialization occurring only on first mount
+* 3D initialization accidentally clearing 2D state
+* incorrect conditional rendering
+* incorrect source/layer lifecycle
+* duplicated map instances
+
+Fix the actual cause.
+
+---
+
+# MODE SWITCH TEST
+
+Test repeatedly:
+
+**2D → 3D → 2D**
+
+**2D → 3D → 2D → 3D → 2D**
+
+At least **10 repeated switches**.
+
+After every switch verify:
+
+### 2D
+
+* spill visible
+* origin visible
+* ships visible
+* relevant tracks visible
+
+### 3D
+
+* spill visible
+* origin visible
+* ships visible
+* relevant tracks/layers visible where supported
+
+The investigation must remain synchronized.
+
+---
+
+# DO NOT OVERDO THE 3D VIEW
+
+This is very important.
+
+We do NOT need:
+
+* photorealistic ships
+* complex ocean simulation
+* underwater terrain
+* bathymetry
+* waves
+* unnecessary 3D effects
+* new GIS systems
+* new data sources
+* complicated 3D models
+
+The goal is simply:
+
+**Make the 3D Globe clearly demonstrate the same investigation as the 2D map.**
+
+Keep it lightweight and professional.
+
+---
+
+# PRESERVE THE EXISTING UI
+
+Do NOT change:
+
+* overall layout
+* colors
+* typography
+* sidebar design
+* navigation
+* timeline design
+* existing cards
+* existing tabs
+* existing investigation workflow
+* existing map controls
+
+Only make changes necessary for the three bugs.
+
+---
+
+# FINAL VALIDATION
+
+After fixing, verify the following:
+
+| Test                | Expected                                   |
+| ------------------- | ------------------------------------------ |
+| Hover oil spill     | Popup appears close to cursor              |
+| Hover near map edge | Popup remains visible                      |
+| Open 2D             | Spill + vessels visible                    |
+| Switch 2D → 3D      | Same investigation appears                 |
+| 3D vessels          | Actual vessel positions, not generic balls |
+| 3D spill            | Actual spill area/geometry                 |
+| Switch 3D → 2D      | 2D data remains visible                    |
+| Repeat mode switch  | No data disappears                         |
+| Vessel selection    | Preserved                                  |
+| Filters             | Preserved                                  |
+| Spill/origin        | Preserved                                  |
+| Timeline state      | Preserved                                  |
+| Console             | No new errors                              |
+| Existing tests      | Pass                                       |
+| Frontend build      | Pass                                       |
+
+---
+
+# FINAL REPORT
+
+Before saying "fixed", provide:
+
+### 1. Oil Spill Hover
+
+* Root cause
+* File changed
+* Fix applied
+
+### 2. 3D Globe
+
+* Why generic round objects were appearing
+* How actual vessel data is now rendered
+* How spill geometry is reused
+
+### 3. 3D → 2D
+
+* Exact root cause of disappearing layers/data
+* Files changed
+* Lifecycle/state fix
+
+### 4. Regression
+
+Confirm that existing functionality remains intact.
+
+## FINAL RULE
+
+**FIX ONLY THESE THREE PROBLEMS.**
+
+Do not redesign the application.
+
+Do not add unrelated features.
+
+Do not change working functionality.
+
+Do not create duplicate data.
+
+Do not use hacks.
+
+Find the actual root cause, make the smallest safe fix, and verify it in the running application.
+
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-09-05T03:15:08+05:30.
+
+The user's current state is as follows:
+Active Document: c:\Users\Kamraan Mulla\OneDrive\Desktop\SIH\oceantrace\frontend\src\store\useIncidentStore.ts (LANGUAGE_TYPESCRIPT)
+Cursor is on line: 461
+Other open documents:
+- c:\Users\Kamraan Mulla\OneDrive\Desktop\SIH\oceantrace\frontend\src\components\map\InvestigationMap.tsx (LANGUAGE_TSX)
+- c:\Users\Kamraan Mulla\OneDrive\Desktop\SIH\oceantrace\backend\tests\test_attribution_engine.py (LANGUAGE_PYTHON)
+- c:\Users\Kamraan Mulla\OneDrive\Desktop\SIH\oceantrace\.gitignore (LANGUAGE_UNSPECIFIED)
+- c:\Users\Kamraan Mulla\OneDrive\Desktop\SIH\oceantrace\backend\test_sat.py (LANGUAGE_PYTHON)
+- c:\Users\Kamraan Mulla\OneDrive\Desktop\SIH\oceantrace\backend\app\demo\seed_demo.py (LANGUAGE_PYTHON)
+Browser State:
+  Page 739B4DBB0D0819D0487EBA9F43D3C391 (frontend) - http://localhost:5173/ [ACTIVE]
+    Viewport: 1536x872, Page Height: 872
+</ADDITIONAL_METADATA>
