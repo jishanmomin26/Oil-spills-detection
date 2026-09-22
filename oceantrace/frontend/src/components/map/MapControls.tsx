@@ -41,14 +41,15 @@ export const MapControls = ({ onFlyTo, onResetView }: MapControlsProps) => {
     justifyContent: "center",
     height: "32px",
     padding: "0 12px",
-    background: "rgba(255,255,255,0.06)",
-    border: "1px solid rgba(255,255,255,0.1)",
+    background: "rgba(255,255,255,0.08)",
+    border: "1px solid rgba(255,255,255,0.14)",
     borderRadius: "6px",
-    color: "#d4d4d8",
+    color: "#f4f4f5",
     cursor: "pointer",
-    fontSize: "11px",
+    fontSize: "12px",
+    fontWeight: 500,
     fontFamily: "'Inter', system-ui, sans-serif",
-    letterSpacing: "0.5px",
+    letterSpacing: "0.4px",
     whiteSpace: "nowrap",
     transition: "background 0.15s, border-color 0.15s",
     userSelect: "none",
@@ -117,12 +118,13 @@ export const MapControls = ({ onFlyTo, onResetView }: MapControlsProps) => {
       >
         <div
           style={{
-            fontSize: "9px",
-            color: "#52525b",
-            letterSpacing: "1.5px",
+            fontSize: "11px",
+            fontWeight: 600,
+            color: "#94a3b8",
+            letterSpacing: "1.2px",
             textTransform: "uppercase",
-            fontFamily: "monospace",
-            marginBottom: "2px",
+            fontFamily: "'JetBrains Mono', monospace",
+            marginBottom: "4px",
           }}
         >
           Ocean Regions
@@ -170,8 +172,8 @@ export const MapControls = ({ onFlyTo, onResetView }: MapControlsProps) => {
           }}
           onClick={() => setLayerPanelOpen((o) => !o)}
         >
-          <span>☰ Layers</span>
-          <span style={{ fontSize: "10px", color: "#52525b" }}>
+          <span style={{ fontWeight: 600 }}>☰ Layers</span>
+          <span style={{ fontSize: "11px", color: "#94a3b8" }}>
             {layerPanelOpen ? "▲" : "▼"}
           </span>
         </button>
@@ -194,7 +196,7 @@ export const MapControls = ({ onFlyTo, onResetView }: MapControlsProps) => {
                     alignItems: "center",
                     gap: "8px",
                     cursor: "pointer",
-                    padding: "3px 0",
+                    padding: "4px 0",
                   }}
                 >
                   <input
@@ -203,16 +205,17 @@ export const MapControls = ({ onFlyTo, onResetView }: MapControlsProps) => {
                     onChange={() => toggleLayer(key)}
                     style={{
                       accentColor: color,
-                      width: "13px",
-                      height: "13px",
+                      width: "14px",
+                      height: "14px",
                       cursor: "pointer",
                     }}
                   />
                   <span
                     style={{
-                      fontSize: "11px",
-                      color: active ? "#d4d4d8" : "#52525b",
-                      fontFamily: "'Inter', system-ui",
+                      fontSize: "12px",
+                      fontWeight: active ? 500 : 400,
+                      color: active ? "#f4f4f5" : "#94a3b8",
+                      fontFamily: "'Inter', system-ui, sans-serif",
                       transition: "color 0.15s",
                     }}
                   >

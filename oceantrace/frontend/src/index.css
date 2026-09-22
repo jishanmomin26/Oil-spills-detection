@@ -1,9 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
-  body {
-    @apply bg-slate-950 text-slate-100 antialiased;
+  *, *::before, *::after {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
+
+  html, body {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background-color: #09090b;
+    color: #f4f4f5;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  button, input, select, textarea {
+    font-family: inherit;
+  }
+
+  code, kbd, samp, pre, .font-mono, [data-mono] {
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  }
+}
+
+/* ── Typography & Legibility Enhancements ── */
+
+/* Elevate low-contrast muted grays to clear readable silver/slate tones on dark backgrounds */
+[style*="color: #71717a"],
+[style*="color: #71717A"],
+[style*="color: #64748b"],
+[style*="color: #64748B"],
+[style*="color: #52525b"],
+[style*="color: #52525B"] {
+  color: #cbd5e1 !important;
+}
+
+[style*="color: #a1a1aa"],
+[style*="color: #A1A1AA"] {
+  color: #e2e8f0 !important;
+}
+
+/* Prevent unreadable micro text (8px, 9px) by boosting to readable sizing & clear weights */
+[style*="font-size: 8px"],
+[style*="font-size: 8px"],
+[style*="fontSize: 8px"],
+[style*="fontSize: \"8px\""],
+[style*="font-size: 9px"],
+[style*="fontSize: 9px"],
+[style*="fontSize: \"9px\""] {
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.5px !important;
+}
+
+[style*="font-size: 10px"],
+[style*="fontSize: 10px"],
+[style*="fontSize: \"10px\""] {
+  font-size: 11.5px !important;
+  font-weight: 500 !important;
+}
+
+/* Improve badge and small label contrast */
+span, div, p, label {
+  text-shadow: 0 0 1px rgba(0,0,0,0.4);
 }

@@ -819,9 +819,12 @@ export const VesselDetailPanel: React.FC<VesselDetailPanelProps> = ({ onFlyTo })
                           <div style={{ display: "flex", justifyContent: "space-between", fontSize: "9px", fontFamily: "monospace", color: "#94a3b8" }}>
                             <span>
                               {ev.measured_value != null && ev.threshold != null ? (
-                                <>Val: <strong style={{ color: "#e2e8f0" }}>{ev.measured_value.toFixed(1)}</strong> (Thresh: {ev.threshold.toFixed(1)} {ev.unit ?? ""})</>
+                                <>
+                                  Val: <strong style={{ color: "#e2e8f0" }}>{typeof ev.measured_value === "number" ? ev.measured_value.toFixed(1) : String(ev.measured_value)}</strong>{" "}
+                                  (Thresh: {typeof ev.threshold === "number" ? ev.threshold.toFixed(1) : String(ev.threshold)} {ev.unit ?? ""})
+                                </>
                               ) : (
-                                <>Coords: {ev.latitude?.toFixed(3)}°, {ev.longitude?.toFixed(3)}°</>
+                                <>Coords: {typeof ev.latitude === "number" ? ev.latitude.toFixed(3) : (ev.latitude ?? "—")}°, {typeof ev.longitude === "number" ? ev.longitude.toFixed(3) : (ev.longitude ?? "—")}°</>
                               )}
                             </span>
                             {ev.severity && (

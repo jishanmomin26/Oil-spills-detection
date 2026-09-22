@@ -15,6 +15,7 @@ import { InvestigationTimelinePanel } from "../components/panels/InvestigationTi
 import { SatelliteEvidencePanel } from "../components/panels/SatelliteEvidencePanel";
 import { AiInvestigationPanel } from "../components/panels/AiInvestigationPanel";
 import { InvestigationSummaryModal } from "../components/panels/InvestigationSummaryModal";
+import { ErrorBoundary } from "../components/ErrorBoundary";
 
 // ── Sidebar Tab Definitions ──
 type SidebarTab = 'timeline' | 'satellite' | 'ai' | 'modules' | 'summary';
@@ -702,7 +703,9 @@ export const CommandCenter = () => {
               position: "relative"
             }}
           >
-            <VesselDetailPanel onFlyTo={handleFlyTo} />
+            <ErrorBoundary fallbackTitle="Vessel Intelligence Panel">
+              <VesselDetailPanel onFlyTo={handleFlyTo} />
+            </ErrorBoundary>
           </div>
         )}
       </main>

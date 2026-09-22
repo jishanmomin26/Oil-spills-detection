@@ -278,6 +278,7 @@ export const InvestigationMap = ({
     layerType: string;
   } | null>(null);
   const [cursorCoord, setCursorCoord] = useState<[number, number] | null>(null);
+  const containerRef = React.useRef<HTMLDivElement>(null);
 
   // Controlled view state for programmatic camera movement
   const centerLon = origin?.center_lon ?? 65.5;
@@ -304,6 +305,35 @@ export const InvestigationMap = ({
       setViewState(defaultViewState);
     }
   }, [isLoading, defaultViewState, viewState]);
+
+  // Handle map mode transitions smoothly without losing investigation focus
+  const prevMapModeRef = React.useRef(mapMode);
+  useEffect(() => {
+    if (prevMapModeRef.current !== mapMode) {
+      const prevMode = prevMapModeRef.current;
+      prevMapModeRef.current = mapMode;
+
+      if (mapMode === "3d") {
+        setViewState((curr: any) => ({
+          ...(curr ?? defaultViewState),
+          longitude: centerLon,
+          latitude: centerLat,
+          zoom: curr && curr.zoom > 4.5 ? 3.4 : (curr?.zoom ?? 3.4),
+          transitionDuration: 600,
+        }));
+      } else if (mapMode === "2d" && prevMode === "3d") {
+        setViewState((curr: any) => ({
+          ...(curr ?? defaultViewState),
+          longitude: centerLon,
+          latitude: centerLat,
+          zoom: curr && curr.zoom < 5.5 ? 7.0 : (curr?.zoom ?? 7.0),
+          pitch: 0,
+          bearing: 0,
+          transitionDuration: 600,
+        }));
+      }
+    }
+  }, [mapMode, centerLon, centerLat, defaultViewState]);
 
   // Register flyTo so CommandCenter can trigger it
   useEffect(() => {
@@ -589,6 +619,7 @@ export const InvestigationMap = ({
         filled: false,
         getLineColor: [244, 63, 94, 90],
         lineWidthMinPixels: 7,
+        parameters: { depthCompare: 'always' },
         pickable: false,
       }),
       // 2. High-contrast translucent crimson oil slick with crisp neon hazard boundary
@@ -604,6 +635,7 @@ export const InvestigationMap = ({
           d.properties?.is_selected ? [255, 255, 255, 255] : [255, 99, 132, 255],
         lineWidthMinPixels: 3.5,
         getLineWidth: (d: any) => (d.properties?.is_selected ? 4 : 3),
+        parameters: { depthCompare: 'always' },
         updateTriggers: {
           getFillColor: [selectedObservationId],
           getLineColor: [selectedObservationId],
@@ -623,6 +655,7 @@ export const InvestigationMap = ({
         getRadius: 450,
         radiusMinPixels: 6,
         radiusMaxPixels: 10,
+        parameters: { depthCompare: 'always' },
         pickable: false,
       }),
     ];
@@ -641,9 +674,7 @@ export const InvestigationMap = ({
       fontFamily: "'Inter', 'Segoe UI', system-ui, sans-serif",
       fontWeight: 700,
       sizeUnits: "pixels",
-      background: true,
-      getBackgroundColor: [15, 23, 42, 235],
-      backgroundPadding: [8, 4],
+      parameters: { depthCompare: 'always' },
       characterSet: "auto",
       updateTriggers: {
         getText: [selectedObservationId],
@@ -773,6 +804,7 @@ export const InvestigationMap = ({
       getFillColor: [16, 185, 129, 65],
       getLineColor: [16, 185, 129, 240],
       lineWidthMinPixels: 2.5,
+      parameters: { depthCompare: 'always' },
       onHover: makeHoverHandler("origin"),
     });
   }, [origin, visibleLayers.origin, makeHoverHandler]);
@@ -792,9 +824,7 @@ export const InvestigationMap = ({
       fontFamily: "'Inter', 'Segoe UI', system-ui, sans-serif",
       fontWeight: 700,
       sizeUnits: "pixels",
-      background: true,
-      getBackgroundColor: [6, 78, 59, 230],
-      backgroundPadding: [6, 3],
+      parameters: { depthCompare: 'always' },
       characterSet: "auto",
     });
   }, [origin, visibleLayers.origin]);
@@ -820,6 +850,7 @@ export const InvestigationMap = ({
       getFillColor: [56, 189, 248, 35],
       getLineColor: [56, 189, 248, 180],
       lineWidthMinPixels: 2,
+      parameters: { depthCompare: 'always' },
       pickable: true,
       onHover: makeHoverHandler("forecast"),
     });
@@ -990,44 +1021,14 @@ export const InvestigationMap = ({
     });
   }, [currentArrows, visibleLayers.current]);
 
-  // Vessel heading-aware icon layer
+  // Vessel heading-aware icon layer (Unified 2D & 3D ship chevron markers)
   // mapMode in deps ensures a new layer instance is created on 2D<->3D switch,
   // preventing deck.gl from reusing a stale layer with wrong viewport projection.
   const vesselIconLayer = useMemo(() => {
     if (!visibleLayers.vessels || !activeVesselPoints.length) return null;
-    // In 3D globe mode, IconLayer with billboard can have depth-fighting issues.
-    // We use a ScatterplotLayer as a robust primary vessel indicator in 3D.
-    if (mapMode === "3d") {
-      return new ScatterplotLayer<ActiveVesselPoint>({
-        id: "vessel-icons",
-        data: activeVesselPoints,
-        getPosition: (d) => d.position,
-        getFillColor: (d) => {
-          if (d.vessel_id === selectedVesselId) return [34, 211, 238, 255];
-          if (selectedVesselId) return [120, 120, 140, 180];
-          if (d.is_candidate) return [244, 63, 94, 255];
-          return [160, 160, 185, 200];
-        },
-        getLineColor: (d) => {
-          if (d.vessel_id === selectedVesselId) return [255, 255, 255, 255];
-          if (d.is_candidate) return [255, 200, 200, 200];
-          return [200, 200, 220, 120];
-        },
-        stroked: true,
-        lineWidthMinPixels: 2,
-        getRadius: (d) => (d.vessel_id === selectedVesselId ? 8000 : d.is_candidate ? 5000 : 3000),
-        radiusMinPixels: 4,
-        radiusMaxPixels: 20,
-        pickable: true,
-        onHover: makeHoverHandler("vessel"),
-        onClick: onVesselClick,
-        updateTriggers: {
-          getFillColor: [selectedVesselId],
-          getLineColor: [selectedVesselId],
-          getRadius: [selectedVesselId],
-        },
-      });
-    }
+
+    // Both 2D and 3D use the crisp directional ship chevron icon from ICON_ATLAS
+    // with parameters: { depthCompare: 'always' } to guarantee zero depth clipping on the 3D globe surface
     return new IconLayer<ActiveVesselPoint>({
       id: "vessel-icons",
       data: activeVesselPoints,
@@ -1036,22 +1037,27 @@ export const InvestigationMap = ({
       getIcon: () => "ship",
       getPosition: (d) => d.position,
       getSize: (d) =>
-        d.vessel_id === selectedVesselId ? 32 : d.is_candidate ? 20 : 10,
+        d.vessel_id === selectedVesselId
+          ? (mapMode === "3d" ? 34 : 32)
+          : d.is_candidate
+          ? (mapMode === "3d" ? 24 : 20)
+          : (mapMode === "3d" ? 14 : 10),
       getColor: (d) => {
         if (d.vessel_id === selectedVesselId) return [34, 211, 238, 255];
         if (selectedVesselId) return [100, 100, 110, 80];
         if (d.is_candidate) return [244, 63, 94, 255];
-        return [160, 160, 185, 120];
+        return mapMode === "3d" ? [190, 205, 230, 220] : [160, 160, 185, 120];
       },
       getAngle: (d) => d.heading,
       billboard: true,
       sizeUnits: "pixels",
+      parameters: { depthCompare: 'always' },
       pickable: true,
       onHover: makeHoverHandler("vessel"),
       onClick: onVesselClick,
       updateTriggers: {
-        getSize: [selectedVesselId],
-        getColor: [selectedVesselId],
+        getSize: [selectedVesselId, mapMode],
+        getColor: [selectedVesselId, mapMode],
       },
     });
   }, [
@@ -1412,9 +1418,7 @@ export const InvestigationMap = ({
       fontFamily: "'Inter', 'Segoe UI', system-ui, sans-serif",
       fontWeight: 700,
       sizeUnits: "pixels",
-      background: true,
-      getBackgroundColor: [15, 23, 42, 210], // Solid dark halo
-      backgroundPadding: [5, 2.5],
+      parameters: { depthCompare: 'always' },
       characterSet: "auto",
       updateTriggers: {
         getSize: [zoom],
@@ -1460,9 +1464,7 @@ export const InvestigationMap = ({
       fontFamily: "'Inter', 'Segoe UI', system-ui, sans-serif",
       fontWeight: 700,
       sizeUnits: "pixels",
-      background: true,
-      getBackgroundColor: [9, 26, 42, 160], // Dark navy halo for contrast
-      backgroundPadding: [6, 3],
+      parameters: { depthCompare: 'always' },
       characterSet: "auto",
       updateTriggers: {
         getSize: [zoom],
@@ -1488,14 +1490,12 @@ export const InvestigationMap = ({
       getPosition: (d) => d.position,
       getText: (d) => d.name,
       getSize: (d) => d.vessel_id === selectedVesselId ? 13 : (d.is_candidate ? 12 : 10),
-      getColor: (d) => d.vessel_id === selectedVesselId ? [34, 211, 238, 255] : (d.is_candidate ? [244, 63, 94, 220] : [160, 160, 185, 160]),
+      getColor: (d) => d.vessel_id === selectedVesselId ? [34, 211, 238, 255] : (d.is_candidate ? [244, 63, 94, 240] : [190, 200, 220, 190]),
       getPixelOffset: [0, mapMode === "3d" ? 18 : 24],
       fontFamily: "'Inter', monospace",
       fontWeight: 'bold',
-      background: true,
-      getBackgroundColor: [9, 9, 11, 220],
-      backgroundPadding: [4, 2],
       sizeUnits: "pixels",
+      parameters: { depthCompare: 'always' },
       updateTriggers: {
         getSize: [selectedVesselId, mapMode],
         getColor: [selectedVesselId],
@@ -1564,19 +1564,40 @@ export const InvestigationMap = ({
     const { x, y, object: obj, layerType } = hoverInfo;
     const p = obj.properties ?? obj;
 
+    const containerRect = containerRef.current?.getBoundingClientRect();
+    const containerWidth = containerRect ? containerRect.width : 800;
+    const containerHeight = containerRect ? containerRect.height : 600;
+
+    const tooltipWidth = 260;
+    const tooltipHeight = 220;
+
+    // Position directly beside cursor, flipping if approaching right or bottom edge
+    let left = x + 16;
+    if (left + tooltipWidth > containerWidth - 14) {
+      left = Math.max(14, x - tooltipWidth - 16);
+    }
+
+    let top = y - 10;
+    if (top + tooltipHeight > containerHeight - 60) {
+      top = Math.max(14, containerHeight - tooltipHeight - 65);
+    }
+    if (top < 14) {
+      top = 14;
+    }
+
     const wrap: React.CSSProperties = {
-      position: "fixed",
-      left: Math.min(x + 14, window.innerWidth - 260),
-      top: Math.max(y - 10, 4),
+      position: "absolute",
+      left: `${left}px`,
+      top: `${top}px`,
       zIndex: 9999,
-      background: "rgba(9,9,11,0.95)",
-      border: "1px solid rgba(255,255,255,0.12)",
+      background: "rgba(9,9,11,0.96)",
+      border: "1px solid rgba(255,255,255,0.14)",
       borderRadius: "8px",
       padding: "12px 14px",
       fontSize: "12px",
       fontFamily: "'Inter', system-ui, sans-serif",
       color: "#e4e4e7",
-      maxWidth: "250px",
+      width: `${tooltipWidth}px`,
       pointerEvents: "none",
       boxShadow: "0 8px 32px rgba(0,0,0,0.6)",
     };
@@ -1780,14 +1801,14 @@ export const InvestigationMap = ({
           {p.measured_value != null && (
             <TT
               label="Measured Value"
-              v={`${p.measured_value.toFixed(1)} ${p.unit ?? ""}`}
+              v={`${typeof p.measured_value === "number" ? p.measured_value.toFixed(1) : p.measured_value} ${p.unit ?? ""}`}
               accent="#38bdf8"
             />
           )}
           {p.threshold != null && (
             <TT
               label="Threshold"
-              v={`${p.threshold.toFixed(1)} ${p.unit ?? ""}`}
+              v={`${typeof p.threshold === "number" ? p.threshold.toFixed(1) : p.threshold} ${p.unit ?? ""}`}
             />
           )}
           {p.severity && (
@@ -2155,6 +2176,7 @@ export const InvestigationMap = ({
   if (mapMode === "3d") {
     return (
       <div
+        ref={containerRef}
         style={{
           width: "100%",
           height: "100%",
@@ -2196,7 +2218,7 @@ export const InvestigationMap = ({
   }
 
   return (
-    <div style={{ width: "100%", height: "100%", position: "relative" }}>
+    <div ref={containerRef} style={{ width: "100%", height: "100%", position: "relative" }}>
       <Compass />
       <CoordinatesOverlay />
       {/* key={mapMode} ensures DeckGL is remounted on mode switch, preventing

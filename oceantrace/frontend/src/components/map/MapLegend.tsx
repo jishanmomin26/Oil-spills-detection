@@ -117,16 +117,17 @@ export const MapLegend = () => {
       >
         <div
           style={{
-            fontSize: "9px",
-            color: "#52525b",
-            letterSpacing: "1.5px",
+            fontSize: "11px",
+            fontWeight: 600,
+            color: "#94a3b8",
+            letterSpacing: "1.2px",
             textTransform: "uppercase",
-            fontFamily: "monospace",
+            fontFamily: "'JetBrains Mono', monospace",
           }}
         >
           Map Legend
         </div>
-        <div style={{ fontSize: "10px", color: "#52525b" }}>
+        <div style={{ fontSize: "11px", color: "#94a3b8" }}>
           {isOpen ? "▼" : "▲"}
         </div>
       </div>
@@ -159,9 +160,10 @@ export const MapLegend = () => {
                 <div>
                   <div
                     style={{
-                      fontSize: "11px",
-                      color: "#d4d4d8",
-                      fontFamily: "'Inter', system-ui",
+                      fontSize: "12px",
+                      color: "#f4f4f5",
+                      fontFamily: "'Inter', system-ui, sans-serif",
+                      fontWeight: 500,
                       lineHeight: 1.2,
                     }}
                   >
@@ -176,12 +178,12 @@ export const MapLegend = () => {
               marginTop: "10px",
               paddingTop: "8px",
               borderTop: "1px solid rgba(255,255,255,0.07)",
-              fontSize: "9px",
-              color: "#3f3f46",
-              fontStyle: "italic",
+              fontSize: "11px",
+              color: "#94a3b8",
+              fontFamily: "'JetBrains Mono', monospace",
             }}
           >
-            [SIMULATED / DEMO DATA]
+            Click vessel on map to inspect
           </div>
         </>
       )}
